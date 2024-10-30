@@ -2,7 +2,9 @@ const template = document.createElement('template')
 template.innerHTML = `
     <style>
         div {
+            box-sizing: border-box;
             display: grid;
+            width: 300px;
             grid-template-columns: 1fr 1fr;
             grid-template-rows: repeat(5, min-content);
             grid-template-areas:
@@ -11,16 +13,17 @@ template.innerHTML = `
                 "label2 max"
                 "label3 output"
                 "btn btn";
-            box-sizing: border-box;
-            width: 500px;
+            grid-gap: 5px;
+            align-items: center;
+            justify-items: center;       
             color: white;
             background-color: green;
             border: 1px solid black;
-
+            border-radius: 50px;
         }
 
         .textfields {
-            width: 150px;
+            width: 100px;
             margin: 10px;
             height: 30px;
             display: block;
@@ -65,25 +68,21 @@ template.innerHTML = `
         #label3 {
             grid-area: label3;
         }
-
-
-
     </style>
-    <div>
-        <h1>Random number generator</h1>
+    <div id="div">
+        <h1>Randomizer</h1>
         <label id="label1">Minvärde</label>
-        <input type="text" id="min" class="textfields" />
+        <input type="text" id="min" class="textfields" placeholder="integer"/>
         <label id="label2">Maxvärde</label>
-        <input type="text" id="max" class="textfields" />
+        <input type="text" id="max" class="textfields" placeholder="integer"/>
         <label id="label3">Resultat</label>
         <input type="text" id="output" class="textfields" readonly />
-        <button id="btn">Click me</button>
+        <button id="btn">Visa resultat</button>
     </div>    
 `
 
 customElements.define('aer-randint',    
     class extends HTMLElement {
-
         #div
         #btn
         #min
@@ -92,11 +91,10 @@ customElements.define('aer-randint',
 
         constructor () {
             super()
-
             this.attachShadow({ mode: 'open' })
                 .appendChild(template.content.cloneNode(true))
 
-            this.#div = this.shadowRoot.querySelector('div')
+            this.#div = this.shadowRoot.querySelector('#div')
             this.#btn = this.shadowRoot.querySelector('#btn')
             this.#min = this.shadowRoot.querySelector('#min')
             this.#max = this.shadowRoot.querySelector('#max')
@@ -115,10 +113,8 @@ customElements.define('aer-randint',
                 const max = Number(this.#max.value)
                 const output = Math.floor(Math.random() * (max - min + 1) + min)
                 this.#output.value = output
-
         })
     }
-
         disconnectedCallback () {}
     }
 )
