@@ -81,40 +81,42 @@ template.innerHTML = `
     </div>    
 `
 
-customElements.define('aer-randint',    
-    class extends HTMLElement {
-        #div
-        #btn
-        #min
-        #max
-        #output
+customElements.define(
+	'aer-randint',
+	class extends HTMLElement {
+		#div
+		#btn
+		#min
+		#max
+		#output
 
-        constructor () {
-            super()
-            this.attachShadow({ mode: 'open' })
-                .appendChild(template.content.cloneNode(true))
+		constructor() {
+			super()
+			this.attachShadow({ mode: 'open' }).appendChild(
+				template.content.cloneNode(true)
+			)
 
-            this.#div = this.shadowRoot.querySelector('#div')
-            this.#btn = this.shadowRoot.querySelector('#btn')
-            this.#min = this.shadowRoot.querySelector('#min')
-            this.#max = this.shadowRoot.querySelector('#max')
-            this.#output = this.shadowRoot.querySelector('#output')
-        }
+			this.#div = this.shadowRoot.querySelector('#div')
+			this.#btn = this.shadowRoot.querySelector('#btn')
+			this.#min = this.shadowRoot.querySelector('#min')
+			this.#max = this.shadowRoot.querySelector('#max')
+			this.#output = this.shadowRoot.querySelector('#output')
+		}
 
-        static get observedAttributes () {
-            return ['attributeName']
-        }
+		static get observedAttributes() {
+			return ['attributeName']
+		}
 
-        attributeChangedCallback (name, oldValue, newValue) {}
+		attributeChangedCallback(name, oldValue, newValue) {}
 
-        connectedCallback () {
-            this.#btn.addEventListener('click', () => {
-                const min = Number(this.#min.value)
-                const max = Number(this.#max.value)
-                const output = Math.floor(Math.random() * (max - min + 1) + min)
-                this.#output.value = output
-        })
-    }
-        disconnectedCallback () {}
-    }
+		connectedCallback() {
+			this.#btn.addEventListener('click', () => {
+				const min = Number(this.#min.value)
+				const max = Number(this.#max.value)
+				const output = Math.floor(Math.random() * (max - min + 1) + min)
+				this.#output.value = output
+			})
+		}
+		disconnectedCallback() {}
+	}
 )
